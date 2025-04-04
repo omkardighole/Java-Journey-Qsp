@@ -1,0 +1,9 @@
+Industrial Standard To save Compile and Execute Java Program 
+
+To Compile - javac -d ../bin ClassNAme.java    //saves the source file .class file in bin folder and keep the source file in src folder
+
+To execute - java -cp ../bin ClassName      //Executes the .class File from bin folder 
+
+
+
+the src folder keeps the .java source files whereas the bin folder keeps the .class files   this kepps the files segregated
