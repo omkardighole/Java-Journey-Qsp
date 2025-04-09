@@ -91,12 +91,12 @@ public class Adhar_Encapsulation {
 			this.virtualId=((int)(Math.random()*100000000));
 			System.out.println("Your Virtual Id is : "+virtualId);
 		}
-//		else
-//		{
-//			System.out.println("Adhar Number Invalid ");
-//			System.out.println("Virtual Id Generation Failed RETRY ");
-//			
-//		}
+		else
+		{
+		System.out.println("Adhar Number Invalid ");
+			System.out.println("Virtual Id Generation Failed RETRY ");
+			
+		}
 	}
 	
 	
