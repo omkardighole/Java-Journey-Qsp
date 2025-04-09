@@ -12,8 +12,9 @@ public class Adhar_Encapsulation_Driver {
 		System.out.println("Adhar Number: "+a1.getAdharNo());
 		System.out.println("Gender: "+a1.getGender());
 		System.out.println("Address : "+a1.getAddress());
+		System.out.println("Ypur Virtual Id is generated Succesfully : "+a1.setVirtualId(11223344));
 		
-	    a1.setVirtualId(11223344);
+	   
 		
 		a1.setDob("16/05/2003", 11223344);
 	
@@ -21,6 +22,21 @@ public class Adhar_Encapsulation_Driver {
 		a1.setGender("MALE", 11223344);
 		
 		a1.setAddress("Sinnar" , 11223344);
+		
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		System.out.println("Details Of Adhar Using Virtual ID");
+		
+		int vid = a1.setVirtualId(11223344);
+		   if(vid==0)
+		   {
+			   System.out.println("Adhar Number Invalid ");
+			   System.out.println("Virtual Id Generation Failed RETRY ");
+		   }
+		   else
+		   {
+			   a1.getAdharDetails(vid);
+			   
+		   }
 		
 		
 	}

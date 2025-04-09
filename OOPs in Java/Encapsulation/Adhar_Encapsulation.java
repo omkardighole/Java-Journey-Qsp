@@ -84,18 +84,36 @@ public class Adhar_Encapsulation {
 		}
 	}
 	
-	public void setVirtualId(long adharNo)
+	public int setVirtualId(long adharNo)
 	{
 		if(this.adharNo==adharNo)
 		{
 			this.virtualId=((int)(Math.random()*100000000));
-			System.out.println("Your Virtual Id is : "+virtualId);
+			//System.out.println("Your Virtual Id is : "+virtualId);
+			return virtualId;
 		}
 		else
 		{
-		System.out.println("Adhar Number Invalid ");
-			System.out.println("Virtual Id Generation Failed RETRY ");
+			//System.out.println("Adhar Number Invalid ");
+			//System.out.println("Virtual Id Generation Failed RETRY ");
+			return 0;
 			
+		}
+	}
+	
+	public void getAdharDetails(int vid)
+	{
+		if(this.virtualId==vid)
+		{
+			System.out.println("NAme : "+this.name);
+			System.out.println("DOB : " +this.dob);
+			System.out.println("Gender : "+this.gender);
+			System.out.println("Address : " +this.address);
+			
+		}
+		else
+		{
+			System.out.println("Virtual Id Not existed");
 		}
 	}
 	
