@@ -1,0 +1,8 @@
+| Aspect                               | **Variable Shadowing**                                                                  | **Method Shadowing**                                                      |
+| ------------------------------------ | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| **What is shadowed?**                | A variable in a subclass or inner scope hides a variable from superclass or outer scope | A `static method` in a subclass hides a static method from the superclass |
+| **Applies to**                       | Both `static` and `instance` variables                                                  | Only `static methods` (non-static methods are overridden)                 |
+| **Resolved at**                      | **Compile-time** based on reference or scope                                            | **Compile-time** based on reference type (not object)                     |
+| **Keyword to access parent version** | `super.variableName` for instance variable                                              | `ClassName.methodName()` for parent method                                |
+| **Polymorphism?**                    | ❌ No                                                                                    | ❌ No (because it’s not overriding)                                        |
+| **Example**                          | `int x = 10;` in child hides `int x = 5;` in parent                                     | `static void show()` in child hides `static void show()` in parent        |
