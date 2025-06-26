@@ -1,0 +1,2 @@
+class Static_Var_Sharing_By_Objects_Example{
+	
