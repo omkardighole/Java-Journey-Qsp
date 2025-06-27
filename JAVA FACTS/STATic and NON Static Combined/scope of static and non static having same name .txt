@@ -1,0 +1,19 @@
+Absolutely! Let's create a **clear scenario** that:
+
+### ✅ Demonstrates:
+
+1. A **static variable** and **non-static variable** with the **same name**
+2. A **static method** trying to access the variable without any reference
+3. A **non-static method** doing the same
+4. Shows the **difference in access and shadowing**
+
+---
+
+## 📘 Explanation:
+
+* Java allows a **static variable** and an **instance variable** to have the **same name**.
+* Inside a **static method**, you **cannot access non-static variables** directly — only the **static one**.
+* Inside a **non-static method**, the **instance variable shadows** the static variable if the name is same.
+
+---
+

@@ -1,0 +1,84 @@
+Great follow-up: **“Why can’t we assign a value directly in the class body in Java?”**
+Let’s answer this in **simple terms with internal logic**.
+
+---
+
+## 🔴 Problem Example (Invalid):
+
+```java
+class Test {
+    static int x;
+    x = 10; // ❌ NOT allowed here
+}
+```
+
+---
+
+## 🧠 **Why is this NOT allowed?**
+
+### 🔹 1. **Java Class Body Only Allows Declarations — Not Statements**
+
+The **class body** (outside of methods/blocks) is meant for:
+
+✅ **Declarations** like:
+
+```java
+int a = 5;              // allowed
+static String name = ""; // allowed
+```
+
+❌ **Statements** like:
+
+```java
+a = 5; // ❌ NOT allowed — it’s a statement, not a declaration
+```
+
+---
+
+### 🔹 2. **Java Needs a Controlled Execution Context**
+
+Statements like `x = 10;` must run **in a method, block, or constructor**, because Java needs to know **when and how** to execute them.
+
+> A statement like `x = 10;` needs a runtime context (like `main()`, `static {}` block).
+> Outside of these, Java has **no legal place** to execute it.
+
+---
+
+### 🔹 3. **Java Is Not a Scripting Language**
+
+Languages like Python allow top-level statements.
+But Java is a **strictly structured compiled language** — it separates:
+
+| Code Type    | Allowed In                                   |
+| ------------ | -------------------------------------------- |
+| Declarations | Class body ✅                                 |
+| Statements   | Method, constructor, block only ✅            |
+| Assignments  | Must be part of a statement or declaration ✅ |
+
+---
+
+## ✅ Summary: Why It’s Not Allowed
+
+| Reason                              | Explanation                                                  |
+| ----------------------------------- | ------------------------------------------------------------ |
+| Java separates declarations & logic | Declarations = OK; Statements = only inside methods/blocks   |
+| Execution context is required       | `x = 10;` is a runtime statement, needs a scope              |
+| Syntax rule enforced by compiler    | "illegal start of expression" or "identifier expected" error |
+
+---
+
+## ✅ Correct Alternatives:
+
+```java
+class Test {
+    static int x = 10;           // ✅ declaration with assignment
+    static { x = 10; }           // ✅ inside static block
+    public static void main(String[] args) {
+        x = 10;                  // ✅ inside method
+    }
+}
+```
+
+---
+
+Would you like a **chart of what can go where** in class/method/block scope next?

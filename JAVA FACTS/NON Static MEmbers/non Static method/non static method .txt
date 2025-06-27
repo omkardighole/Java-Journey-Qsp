@@ -1,0 +1,121 @@
+Excellent! Let's now explain **non-static methods in Java** **as per the official Oracle documentation**, and align all points with Oracle’s terminology and behavior:
+
+---
+
+## ✅ What is a Non-Static Method?
+
+📖 **Oracle Java SE Docs (JLS 8.4.3: Instance Methods):**
+
+> *"An instance method is invoked with respect to an instance of a class, and has access to the fields of that instance."*
+
+---
+
+### 🔹 Oracle-Style Definition:
+
+> A **non-static method** (also called an **instance method**) belongs to the **instances (objects)** of a class. It is called using an object reference and can **access instance (non-static) and static members** of the class.
+
+---
+
+## 🧠 Oracle-Based Behavior Summary:
+
+| Feature          | Oracle Behavior                                                                                                  |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Access           | Must be invoked on an instance (object)                                                                          |
+| `this` Reference | Always available and refers to the current object instance                                                       |
+| Can Access       | Instance fields, static fields, instance methods, and static methods                                             |
+| Inheritance      | Yes, instance methods are **subject to overriding** and polymorphism                                             |
+| Invocation       | `objectRef.methodName()`                                                                                         |
+| Memory           | Method code resides in **method area**, but it **executes in stack**, with `this` referencing object on **heap** |
+| Default Modifier | If no modifier is specified, method is package-private (default access)                                          |
+| Lifecycle        | Runs **only after object creation**, each call is bound to the **calling object**                                |
+
+---
+
+## 📘 From Oracle JLS (Java Language Specification):
+
+> **"If a method is not declared static, then it is an instance method, and implementation of the method may reference the current object using `this`."**
+
+> — [JLS §8.4.3](https://docs.oracle.com/javase/specs/jls/se17/html/jls-8.html#jls-8.4.3)
+
+---
+
+## 🔄 Execution Behavior (As per Oracle JVM Spec):
+
+When calling a non-static method:
+
+1. JVM pushes a new **stack frame** for the method.
+2. JVM passes the **object reference** (this) as the first hidden parameter.
+3. Instance fields and methods can be used via `this`.
+
+---
+
+## ✅ Oracle-Compatible Code Example:
+
+```java
+public class OracleStyleDemo {
+    int count = 5; // instance variable
+
+    void show() { // non-static method
+        System.out.println("this.count = " + this.count); // uses this
+    }
+
+    public static void main(String[] args) {
+        OracleStyleDemo obj = new OracleStyleDemo();
+        obj.show(); // call using object
+    }
+}
+```
+
+---
+
+## 🔍 Official Terms Used by Oracle:
+
+| Oracle Term                      | Meaning in Context                                                   |
+| -------------------------------- | -------------------------------------------------------------------- |
+| **Instance Method**              | A method that is **not static** and is associated with an object     |
+| **Receiver (`this`)**            | Hidden parameter referring to the object used to invoke the method   |
+| **Method Invocation Expression** | Syntax like `obj.method()`                                           |
+| **Member Access**                | Instance methods can access both **instance** and **static** members |
+
+---
+
+## ❗ Oracle-Implied Rules
+
+| Rule                                               | Source                         |
+| -------------------------------------------------- | ------------------------------ |
+| Cannot call instance method without an object      | JLS §15.12: Method Invocation  |
+| `this` is available only inside non-static methods | JLS §15.8.3: `this` Expression |
+| Instance methods can be overridden                 | JLS §8.4.8: Method Overriding  |
+| Static methods cannot override instance methods    | JLS §8.4.8.1: Overriding Rules |
+
+---
+
+## 🧠 Summary (Oracle-Oriented View)
+
+| Feature            | Non-Static Method                                       |
+| ------------------ | ------------------------------------------------------- |
+| Ownership          | Belongs to **instances of the class**                   |
+| Access             | Using `object.method()` syntax                          |
+| Access to fields   | ✅ Instance & ✅ Static                                   |
+| Access to `this`   | ✅ Yes, auto-passed by JVM                               |
+| Memory & Execution | Code: method area, Reference: heap, Execution: stack    |
+| Override Support   | ✅ Yes — polymorphism applicable                         |
+| Hidden Parameters  | JVM passes `this` as hidden argument internally         |
+| Oracle Definition  | *"Invoked with respect to an instance..."* — JLS §8.4.3 |
+
+---
+
+## 📝 Conclusion (in Oracle’s words):
+
+> **"A non-static method is one which must be invoked with respect to an object and has access to the instance fields and methods of that object."**
+
+This matches exactly how `this` works and how memory and execution behave under JVM guidelines as per the Oracle specifications.
+
+---
+
+Would you like the same Oracle-style guide for:
+
+* 🔷 Static methods
+* 🔷 Constructors
+* 🔷 Overriding rules
+  Let me know!

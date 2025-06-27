@@ -1,0 +1,259 @@
+
+
+### 🔄 1. **`main()` is a static method – but why?**
+
+```java
+public static void main(String[] args) {
+    // entry point of every Java program
+}
+```
+
+➡ Java needs to run your program **without creating an object**, so `main()` must be `static`.
+If it weren’t, the JVM would need to create an object first—which it can't do without a starting method.
+
+---
+
+### ♻️ 2. **Static blocks run before `main()`**
+
+```java
+class Demo {
+    static {
+        System.out.println("Static block runs before main!");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Main method");
+    }
+}
+```
+
+📌 Output:
+
+```
+Static block runs before main!
+Main method
+```
+
+➡ Static blocks are great for **initial setup** before any code runs.
+
+---
+
+### 👥 3. **All objects share static data**
+
+```java
+class Counter {
+    static int count = 0;
+
+    Counter() {
+        count++;
+        System.out.println(count);
+    }
+}
+```
+
+➡ `count` is shared by all objects. So:
+
+```java
+new Counter(); // 1
+new Counter(); // 2
+new Counter(); // 3
+```
+
+➡ Only **one copy of `count`** exists, shared across all instances.
+
+---
+
+### 🔒 4. **Static methods can be `private`, `public`, or `protected`**
+
+```java
+class MyClass {
+    private static void hidden() {
+        System.out.println("Private static method");
+    }
+}
+```
+
+➡ `static` can be combined with **any access modifier**. Even private static methods are common in utility classes.
+
+---
+
+### 🏗️ 5. **Used in Utility / Helper Classes**
+
+```java
+int max = Math.max(10, 20);
+```
+
+➡ Classes like `Math`, `Collections`, `Arrays`, `Integer`, etc. use static methods so you can **reuse common logic** without creating objects.
+
+---
+
+### 🚫 6. **Static methods can't access non-static members directly**
+
+```java
+class Example {
+    int x = 5;
+
+    static void printX() {
+        // System.out.println(x); ❌ Not allowed
+    }
+}
+```
+
+➡ You must create an object:
+
+```java
+Example obj = new Example();
+System.out.println(obj.x); ✅
+```
+
+---
+
+### 🧬 7. **Static Nested Classes**
+
+```java
+class Outer {
+    static class Inner {
+        void message() {
+            System.out.println("Inside static nested class");
+        }
+    }
+}
+```
+
+➡ Static nested classes **don't need an object of the outer class**.
+
+```java
+Outer.Inner obj = new Outer.Inner();
+obj.message();
+```
+
+Used in **frameworks** like Spring, JavaFX, etc.
+
+---
+
+### 👨‍👦 8. **Static methods are not truly overridden (they are hidden)**
+
+```java
+class Parent {
+    static void show() {
+        System.out.println("Parent");
+    }
+}
+
+class Child extends Parent {
+    static void show() {
+        System.out.println("Child");
+    }
+}
+```
+
+```java
+Parent obj = new Child();
+obj.show();  // Output: Parent ❗
+```
+
+➡ Because static methods are resolved using the **reference type**, not the object.
+
+---
+
+### 🔁 9. **Static methods can be overloaded**
+
+```java
+class Overload {
+    static void display() {
+        System.out.println("No args");
+    }
+
+    static void display(String msg) {
+        System.out.println(msg);
+    }
+}
+```
+
+➡ Overloading works based on different **parameter lists**.
+
+---
+
+### 🔧 10. **Used in Factory Methods (like `List.of()`)**
+
+```java
+List<String> names = List.of("Alice", "Bob");
+```
+
+➡ Static factory methods are common in APIs to create objects **without `new` keyword**.
+
+---
+
+### 📦 11. **Stored in Method Area (not Heap)**
+
+Static methods and static variables are stored in a special part of memory called the **method area**, not inside the heap like instance variables.
+
+---
+
+### ⚡ 12. **Faster Execution (no dynamic dispatch)**
+
+Since the method call is resolved at **compile time**, there's no overhead like virtual method dispatch, making static calls slightly **faster** than instance method calls.
+
+--````````````````````````````````````~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+➡️➡️➡️➡️What exactly is the “method reference” stored in the class's method area?
+In other words, what is "that reference" pointing to?
+
+✅ Short Answer:
+The reference stored in the class's method area for a static method is a pointer (or symbolic link) to the method's bytecode, along with its signature, stored in the constant pool and method table.
+
+🧠 Internally, “method reference” includes:
+Method Name – e.g., "display"
+
+Method Signature – e.g., "(Ljava/lang/String;)V"
+
+Pointer to Bytecode – memory address or index where the method's instructions are stored
+
+So when we say "method reference", it means:
+
+"Here’s a unique key that identifies the method's name, its argument types, return type, and where its instructions live in memory."
+
+🔍 Example:
+Given this method:
+
+java
+Copy
+Edit
+class Demo {
+    static void greet(String name) {
+        System.out.println("Hello " + name);
+    }
+}
+Internally, the method area holds something like:
+
+📂 Constant Pool Entries:
+Entry #	Type	Value
+1	Utf8	"greet"
+2	Utf8	"(Ljava/lang/String;)V"
+3	MethodRef	Class: Demo, Name+Type: (1,2)
+
+🧾 Method Table (internal structure):
+Name	Signature	Pointer / Address
+greet	(Ljava/lang/String;)V	→ 0x004F (bytecode address)
+
+So the reference stored is:
+
+MethodRef #3 = "greet(String):void"
+
+Points to 0x004F in bytecode → JVM jumps there to execute when Demo.greet("Omkar") is called.
+
+🏗️ Why store a reference and not direct code?
+Because:
+
+It allows lazy resolution: methods are resolved only when needed.
+
+Makes dynamic linking possible.
+
+Keeps things modular and efficient.
+
+🛠️ Summary: What is “that reference”?
+Part	What it Means
+Method Reference	Symbolic entry in constant pool (MethodRef)
+Points To	Method name, signature, and bytecode location
+Stored In	Class’s Method Area
+Used For	Invoking the correct method when called

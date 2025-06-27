@@ -1,0 +1,91 @@
+HOW  **internally** into **how default values are assigned to `static` variables in Java** — what really happens **inside the JVM**.
+
+---
+
+### 🧠 **Internals of Default Value Assignment to Static Variables**
+
+---
+
+### ✅ 1. **Class Loading Phase**
+
+When the JVM starts and encounters a class (e.g. `MyClass`), it performs:
+
+* **Loading** – Finds the `.class` file.
+* **Linking** – Breaks into:
+
+  * **Verification**: Ensures bytecode is valid.
+  * **Preparation**: 🔥 *This is where default values are assigned*.
+  * **Resolution**: Replaces symbolic references.
+
+---
+
+### 🔹 **During the "Preparation" phase**:
+
+* The JVM allocates memory **in the Method Area** for all `static` variables.
+* **All static variables are initialized to default values** **before** any explicit initialization or static blocks are run.
+
+> 💡 Think of it like: JVM says “I’ll make space for this variable and give it a default value, just in case no one initializes it manually.”
+
+#### Example:
+
+```java
+class MyClass {
+    static int a;
+    static String s;
+}
+```
+
+During **Preparation**, JVM does this:
+
+```
+// JVM (behind the scenes)
+a = 0;
+s = null;
+```
+
+---
+
+### ✅ 2. **Class Initialization Phase**
+
+Once default values are assigned, the JVM then checks for:
+
+* **Static initializers**
+* **Static blocks**
+
+If any exist, it will run them **after** assigning default values.
+
+---
+
+### 📂 Where is memory allocated?
+
+* **Static variables** → stored in **Method Area** (or **MetaSpace** in Java 8+).
+* The JVM maintains a table of static fields for each class.
+
+---
+
+### ⚙️ Analogy:
+
+Imagine you book a hotel room (`static int x`). Before you enter and set it up, the hotel staff gives you:
+
+* A bed (`0`)
+* A chair (`null`)
+* A light switch (`false`)
+
+Even if you don't customize the room (`no static block`), you still get the **default setup**.
+
+---
+
+### 👨‍💻 JVM Bytecode (Optional Advanced Peek)
+
+If you run `javap -c MyClass`, you won’t see default values — because they’re **not in the bytecode** — they're set **internally by the JVM during the preparation phase**, not by your code.
+
+---
+
+### ✅ Summary:
+
+| Phase              | Action                                                           |
+| ------------------ | ---------------------------------------------------------------- |
+| **Preparation**    | JVM allocates memory for static vars, assigns **default values** |
+| **Initialization** | JVM runs static blocks or assignments (`static int x = 5;`)      |
+
+

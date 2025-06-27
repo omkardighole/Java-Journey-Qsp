@@ -1,0 +1,88 @@
+Sure! Let’s focus on the **`static block`** in Java — explained in **simple words** with examples and memory flow.
+
+---
+
+## ✅ What is a **Static Block**?
+
+A **static block** is a block of code that:
+
+* Runs **once**, when the **class is loaded**.
+* Used to **initialize static variables**.
+* Runs **before `main()`**, and before any object is created.
+
+---
+
+### 🔹 Syntax:
+
+```java
+static {
+    // your code here
+}
+```
+
+---
+
+## 📌 Example:
+
+```java
+class Test {
+    static int x;
+
+    static {
+        System.out.println("Static block is running");
+        x = 100;  // initializing static variable
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Main method starts");
+        System.out.println("x = " + x);
+    }
+}
+```
+
+### ✅ Output:
+
+```
+Static block is running
+Main method starts
+x = 100
+```
+
+---
+
+## 🔁 Flow:
+
+| Step | What Happens           | Memory Area | Who Does It |
+| ---- | ---------------------- | ----------- | ----------- |
+| 1    | Class `Test` is loaded | Method Area | JVM         |
+| 2    | 🔥 Static block runs   | Method Area | JVM         |
+| 3    | `main()` runs          | Stack       | JVM         |
+
+---
+
+## ❓ Why Use Static Block?
+
+| Use Case                    | Example                    |
+| --------------------------- | -------------------------- |
+| Initialize static variables | `x = 100;`                 |
+| Connect to a database once  | `static { connectDB(); }`  |
+| Load configuration file     | `static { loadConfig(); }` |
+| Logging setup at class load | `static { logInit(); }`    |
+
+---
+
+## ⚠️ Important Points:
+
+* Can be **multiple static blocks** – they run **top to bottom**.
+* **Only runs once** — when the class is loaded into memory.
+* Runs **before** `main()` or any object is created.
+
+---
+
+### 🧠 Summary:
+
+> A **static block** is a special block that **runs only once** to **initialize static parts of a class** before anything else happens.
+
+---
+
+Want to see how multiple static blocks work or how static blocks differ from instance blocks?

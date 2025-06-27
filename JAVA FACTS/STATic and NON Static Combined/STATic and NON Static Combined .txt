@@ -1,0 +1,147 @@
+Great example! Let's walk through your Java class step by step and explain exactly what's happening — especially around **variable shadowing** and **static vs instance variables**.
+
+---
+
+### 🔍 Code Recap:
+
+```java
+class Test {
+    static int x = 5;      // Static/class variable
+    int x = 10;            // Instance variable (shadows static variable)
+
+    void print() {
+        System.out.println(x);       // (1)
+        System.out.println(this.x);  // (2)
+        System.out.println(Test.x);  // (3)
+    }
+}
+```
+
+---
+
+### ✅ What happens here?
+
+Java allows you to have a **static variable** and an **instance variable** with the **same name**. But in that case:
+
+* The **instance variable hides (shadows)** the static variable **in non-static contexts**.
+
+---
+
+### 🔸 Line-by-line Output
+
+#### ➤ `System.out.println(x);`
+
+* Since we're in a **non-static method**, `x` refers to the **instance variable**.
+* So it prints: `10`
+
+#### ➤ `System.out.println(this.x);`
+
+* `this.x` **explicitly refers to the instance variable** of the current object.
+* So it also prints: `10`
+
+#### ➤ `System.out.println(Test.x);`
+
+* `Test.x` **directly accesses the static variable** using the class name.
+* So it prints: `5`
+
+---
+
+### ✅ Output:
+
+```
+10
+10
+5
+```
+
+---
+
+### 🧠 Interview Insight:
+
+* This is a **classic question** in Java interviews to test understanding of:
+
+  * **Variable shadowing**
+  * **Static vs instance scope**
+  * **`this` keyword**
+  * **Class name access for static variables**
+
+---
+
+### Would you like:
+
+* A version with methods or constructors involved?
+* A quiz-style challenge with a small twist?
+
+Let me know!
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Great! Let's build a **version of your example** that involves a **constructor and a method**, while keeping the **same concept of shadowing static variables with instance variables**.
+
+---
+
+## 🔧 Example: Static vs Instance Variable in Constructor and Method
+
+```java
+public class Test {
+    static int x = 5;     // Class-level static variable
+    int x;                // Instance-level variable (no initial value)
+
+    // Constructor
+    Test() {
+        x = 10;  // This assigns value to the instance variable, not the static one
+    }
+
+    void showValues() {
+        System.out.println("x         = " + x);        // Refers to instance variable
+        System.out.println("this.x    = " + this.x);   // Refers to instance variable
+        System.out.println("Test.x    = " + Test.x);   // Refers to static variable
+    }
+
+    public static void main(String[] args) {
+        Test obj = new Test(); // Constructor sets instance x = 10
+        obj.showValues();
+    }
+}
+```
+
+---
+
+## ✅ Output:
+
+```
+x         = 10
+this.x    = 10
+Test.x    = 5
+```
+
+---
+
+## 🔍 Explanation:
+
+### `static int x = 5;`
+- Belongs to the **class**.
+- Shared by **all objects**.
+
+### `int x;`
+- Belongs to each **object** separately.
+- This **shadows** the static variable `x` in instance methods/constructors.
+
+### `Test() constructor: x = 10;`
+- Sets the **instance variable `x`** to 10.
+- Doesn’t touch the static `x` at all.
+
+### `showValues()` method:
+- `x` and `this.x` refer to **instance variable**.
+- `Test.x` refers to the **static variable**.
+
+---
+
+### 🧠 Interview Notes:
+
+- If you assign to `x` in a constructor or instance method, it **assigns to the instance variable**, even if a static one exists.
+- You can always access the class-level `x` using `ClassName.x` (e.g., `Test.x`).
+- This tests understanding of **scope**, **shadowing**, and **constructor behavior**.
+
+---
+
+Would you like a version where the **constructor changes the static value** too, or one that involves **inheritance**?

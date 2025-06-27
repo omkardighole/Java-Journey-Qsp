@@ -1,0 +1,89 @@
+Great question! Let's clarify this important concept in Java: **Can we override non-static variables in subclasses?**
+
+---
+
+## 🔸 Q8: Can we override non-static variables in subclasses?
+
+### ✅ Answer:
+
+> **No, variables (both static and non-static) in Java are not overridden — they are shadowed.**
+
+---
+
+## 🔍 Explanation:
+
+* **Methods** in Java are overridden.
+* **Variables** are not overridden — they are **shadowed/hide** the superclass variable.
+
+---
+
+### 🧪 Example:
+
+```java
+class A {
+    int x = 10;
+}
+
+class B extends A {
+    int x = 20;  // This shadows A.x
+}
+```
+
+### 🔸 Case 1: Using subclass reference
+
+```java
+B obj = new B();
+System.out.println(obj.x);  // Output: 20
+```
+
+> ✅ Here, `obj` is of type `B`, so it accesses `B`'s version of `x`.
+
+---
+
+### 🔸 Case 2: Using superclass reference
+
+```java
+A obj = new B();
+System.out.println(obj.x);  // Output: 10
+```
+
+> ❗ Even though the object is of type `B`, the reference is of type `A`.
+> So the **field access uses the reference type**, not the object type.
+
+---
+
+## 🔁 Why doesn't this happen with methods?
+
+```java
+class A {
+    void show() { System.out.println("A"); }
+}
+
+class B extends A {
+    void show() { System.out.println("B"); }
+}
+
+A obj = new B();
+obj.show();  // Output: B ✅ (Overridden method)
+```
+
+> 🔥 **Dynamic dispatch** works for methods, not for variables.
+
+---
+
+## ✅ Summary Table:
+
+| Member Type | Can Be Overridden? | Behavior with Superclass Reference |
+| ----------- | ------------------ | ---------------------------------- |
+| Method      | ✅ Yes              | Uses **object type**               |
+| Variable    | ❌ No (shadowed)    | Uses **reference type**            |
+
+---
+
+### 🧠 Interview Tip:
+
+> This is a **classic trap question** — candidates often assume variables behave like methods in polymorphism, but they don't.
+
+---
+
+Would you like a challenge quiz or another variation with `static` fields?
