@@ -1,0 +1,271 @@
+Here's a complete and **easy-to-understand** explanation of the Java **`new` keyword**, including **memory behavior**, **constructor flow**, **JVM internals**, **real-time code examples**, **corner cases**, **use cases**, and **interview questions**, with a **summary table**—based on Oracle documentation.
+
+---
+
+## 🔹 What is `new` Keyword in Java?
+
+**Definition:**
+The `new` keyword in Java is used to **create a new object** of a class. It allocates **memory in the heap** and **calls the constructor** of the class to initialize the object.
+
+**Syntax:**
+
+```java
+ClassName obj = new ClassName();
+```
+
+---
+
+## 🔹 Behind the Scenes (JVM Internal Flow)
+
+1. **Class is loaded** (if not already) by **ClassLoader**.
+2. **Memory is allocated** in **Heap** for the object.
+3. A **reference variable** is created in the **Stack** to point to that object.
+4. **Constructor is invoked** to initialize the object.
+5. Object is now ready to be used.
+
+---
+
+## 🔹 Memory Behavior (Heap & Stack)
+
+| Memory Area | Stores                                       | Example                             |
+| ----------- | -------------------------------------------- | ----------------------------------- |
+| Heap        | Actual object and its instance variables     | `new Student()` creates object here |
+| Stack       | Reference to the object + method call frames | `Student s` points to heap object   |
+
+---
+
+## 🔹 Real-Time Example
+
+```java
+class Student {
+    String name;
+
+    Student(String name) {
+        this.name = name;
+    }
+
+    void display() {
+        System.out.println("Name: " + name);
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Student s1 = new Student("Omkar"); // Step 1
+        s1.display();                      // Step 2
+    }
+}
+```
+
+### ✅ What Happens:
+
+1. `new Student("Omkar")` → Allocates memory in heap.
+2. `s1` → Reference created in stack.
+3. Constructor called → Initializes `name`.
+4. `s1.display()` → Method uses `s1` reference.
+
+---
+
+## 🔹 Real-World Scenario
+
+```java
+Car myCar = new Car("Red", 2023);
+BankAccount acc = new BankAccount("Poonam", 5000);
+```
+
+In real-world apps:
+
+* `new` is used for models like `Customer`, `Employee`, `Vehicle`, etc.
+* Used heavily in Android apps, web backends, banking systems.
+
+---
+
+## 🔹 Use Cases of `new`
+
+| Use Case                      | Description                                       |
+| ----------------------------- | ------------------------------------------------- |
+| Creating objects              | Most basic use                                    |
+| Initializing arrays           | `int[] arr = new int[5];`                         |
+| Anonymous classes             | `new Runnable() { ... }`                          |
+| Custom initialization         | With constructor logic                            |
+| Dependency injection (Spring) | Usually avoided (`new`) in favor of IoC container |
+
+---
+
+## 🔹 Constructor & Method Flow with `new`
+
+```java
+class Book {
+    Book() {
+        System.out.println("Constructor called");
+    }
+
+    void read() {
+        System.out.println("Reading...");
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Book b = new Book(); // Constructor called
+        b.read();            // Method called
+    }
+}
+```
+
+### Flow:
+
+1. `new Book()` → Object created → Constructor prints
+2. `b.read()` → Calls method on the object
+
+---
+
+## 🔹 Corner Cases & Tricky Points
+
+### ✅ Anonymous Object
+
+```java
+new Student("Raj").display(); // No reference created
+```
+
+### ✅ Array of Objects
+
+```java
+Student[] arr = new Student[3]; // Array created, but no Student objects yet
+arr[0] = new Student("A");      // Now object created at index 0
+```
+
+### ✅ Null Reference
+
+```java
+Student s = null;
+s = new Student("Om");  // Safe
+```
+
+### ❌ Common Mistake
+
+```java
+Student s;
+s.display();  // ❌ Compile error: s not initialized
+```
+
+---
+
+## 🔹 Tricky Interview Questions
+
+1. **What is stored in the heap and what in the stack when you use `new`?**
+
+   * Heap: Object + instance variables.
+   * Stack: Reference variable and method frames.
+
+2. **Can we override `new` in Java?**
+
+   * ❌ No. `new` is a language keyword, not a method.
+
+3. **Is `new` used for static members?**
+
+   * ❌ No. Static members belong to class, not object.
+
+4. **Difference between `new` and `clone()`?**
+
+   * `new` → creates fresh object, calls constructor
+   * `clone()` → copies fields from existing object, skips constructor
+
+5. **What happens if constructor is private and we use `new`?**
+
+   * ❌ Compile-time error (unless accessed inside class or via factory pattern)
+
+---
+
+## 🔹 JVM-Level Flow with `new`
+
+```java
+Student s = new Student("A");
+```
+
+### What JVM Does:
+
+* Loads `Student` class (if not loaded)
+* Checks access to constructor
+* Allocates memory in **heap**
+* Calls constructor via `<init>` method
+* Links `s` reference to the object in stack
+
+---
+
+## 🔹 Summary Table
+
+| Feature              | Explanation                                                    |
+| -------------------- | -------------------------------------------------------------- |
+| Purpose              | Create a new object                                            |
+| Memory Area          | Object → Heap, Reference → Stack                               |
+| Calls Constructor    | Yes                                                            |
+| Can Be Overridden    | No                                                             |
+| With Anonymous Class | Yes, `new Interface() {}`                                      |
+| Related Concepts     | Stack, Heap, Constructor, GC, Reference                        |
+| JVM Tasks            | Load class → Allocate heap → Call constructor → Link reference |
+| Arrays Use `new`?    | Yes: `int[] a = new int[5];`                                   |
+
+---
+
+## 🔹 Advanced & Real-Time Usage
+
+### Anonymous Object in One-time Call
+
+```java
+new Thread(() -> System.out.println("Run")).start();
+```
+
+### Object Inside Object
+
+```java
+class Engine {}
+class Car {
+    Engine engine = new Engine(); // `new` inside another class
+}
+```
+
+### Using `new` with Polymorphism
+
+```java
+Animal a = new Dog(); // Upcasting
+```
+
+---
+
+## 🔹 In Simple Words
+
+* **`new`** is like ordering a pizza:
+
+  * Java says: “Make a new `Pizza`!”
+  * Chef (JVM) gets the recipe (`class`)
+  * Makes it (calls constructor)
+  * Places it on the table (heap)
+  * Gives you the receipt (reference in stack)
+  * You use the receipt to eat (call methods)
+
+---
+
+## Want to Practice?
+
+Try this:
+
+```java
+class Pen {
+    String color = "Blue";
+
+    Pen() {
+        System.out.println("Pen Created!");
+    }
+
+    void write() {
+        System.out.println("Writing in " + color);
+    }
+
+    public static void main(String[] args) {
+        Pen p = new Pen(); // object creation
+        p.write();
+    }
+}
+```
+

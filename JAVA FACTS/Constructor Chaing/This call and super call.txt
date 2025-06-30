@@ -1,0 +1,199 @@
+Sure! Let's deeply and clearly explain **`this()`** and **`super()`** constructor calls in Java — using **simple words**, **real examples**, **interview insights**, and **JVM behavior** — exactly as per **Oracle documentation** (JLS §8.8.7.1).
+
+---
+
+## 🔷 1. What is `this()`?
+
+> `this()` is used to call **another constructor** **in the same class**.
+
+### ✅ Syntax:
+
+```java
+this(arg1, arg2, ...);
+```
+
+* Must be the **first statement** in a constructor.
+* Helps in **constructor chaining** within the same class.
+
+### 📌 Example:
+
+```java
+class Demo {
+    Demo() {
+        this(5);  // calls Demo(int)
+        System.out.println("No-arg constructor");
+    }
+
+    Demo(int x) {
+        System.out.println("Int constructor: " + x);
+    }
+}
+```
+
+### ✅ Output:
+
+```
+Int constructor: 5  
+No-arg constructor
+```
+
+---
+
+## 🔷 2. What is `super()`?
+
+> `super()` is used to call the **constructor of the immediate superclass**.
+
+### ✅ Syntax:
+
+```java
+super(arg1, arg2, ...);
+```
+
+* Also must be the **first line** in a constructor.
+* Can be used to **initialize parent class members**.
+
+### 📌 Example:
+
+```java
+class Parent {
+    Parent() {
+        System.out.println("Parent constructor");
+    }
+}
+
+class Child extends Parent {
+    Child() {
+        super();  // calls Parent()
+        System.out.println("Child constructor");
+    }
+}
+```
+
+### ✅ Output:
+
+```
+Parent constructor  
+Child constructor
+```
+
+---
+
+## ⚖️ Comparison: `this()` vs `super()`
+
+| Feature           | `this()`                                  | `super()`                      |
+| ----------------- | ----------------------------------------- | ------------------------------ |
+| Calls             | Another constructor in **same** class     | Constructor of **super** class |
+| Used For          | Constructor chaining                      | Superclass initialization      |
+| Position          | Must be **first line**                    | Must be **first line**         |
+| Allowed Together? | ❌ No. Only one is allowed per constructor | ❌ No                           |
+
+---
+
+## 📌 JVM Behind the Scenes
+
+```java
+new Child();
+```
+
+1. JVM allocates **heap** memory
+2. Calls `Child()` → hits `super()` → calls `Parent()` first
+3. Then back to `Child()` to finish child-specific initialization
+
+---
+
+## 🔥 Interview Tricky Questions
+
+### ❓Q1. Can we use both `this()` and `super()` in same constructor?
+
+**❌ No.**
+
+* Only **one constructor call** (`this()` or `super()`) is allowed.
+* Must be **the first statement**.
+
+---
+
+### ❓Q2. What happens if I don’t write `super()` explicitly?
+
+✅ Java **automatically inserts `super()`** (no-arg) if:
+
+* No `this()` or `super()` written
+* Superclass has a no-arg constructor
+
+❌ If the superclass doesn’t have a no-arg constructor → **Compile-Time Error**
+
+---
+
+### ❓Q3. Can I call `super()` in a method (not constructor)?
+
+✅ Yes — but that means calling a **superclass method**, not constructor:
+
+```java
+super.someMethod(); // ✅ allowed in any method
+```
+
+🚫 But `super()` (constructor call) is allowed **only inside a constructor** and only as first line.
+
+---
+
+### ❓Q4. Can I use `this()` in a method?
+
+❌ No. `this()` is only valid in constructors — it’s **not a method call**.
+
+---
+
+## ✅ Real-World Use Case of `this()` and `super()`
+
+### Constructor chaining (`this()`):
+
+```java
+public class Student {
+    String name;
+    int age;
+
+    Student() {
+        this("Unknown", 0); // Default
+    }
+
+    Student(String name) {
+        this(name, 18); // Default age
+    }
+
+    Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+```
+
+### Superclass initialization (`super()`):
+
+```java
+class Animal {
+    Animal(String name) {
+        System.out.println("Animal: " + name);
+    }
+}
+
+class Dog extends Animal {
+    Dog() {
+        super("Doggo"); // Pass to parent
+        System.out.println("Dog constructor");
+    }
+}
+```
+
+---
+
+## 📚 Summary Table
+
+| Concept                 | `this()`                  | `super()`                       |
+| ----------------------- | ------------------------- | ------------------------------- |
+| Calls                   | Constructor in same class | Constructor in superclass       |
+| Must be                 | First line in constructor | First line in constructor       |
+| Purpose                 | Constructor chaining      | Inherit & initialize superclass |
+| Inserted automatically? | ❌ No                      | ✅ Yes (if no call given)        |
+| Usage scope             | Only in constructors      | Only in constructors            |
+
+---
+
+Would you like a visual flow diagram or code quiz to master these calls?

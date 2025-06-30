@@ -1,0 +1,72 @@
+Yes ✅ — **binding can be influenced by the order of formal arguments** in **method overloading** and **polymorphism**, especially during **compile-time binding (static binding)**.
+
+---
+
+## 🔍 Let's break this down:
+
+### ✅ **What is binding?**
+
+Binding refers to **linking a method call to the method definition**:
+
+* **Early (static) binding**: Happens at compile time (e.g., method overloading)
+* **Late (dynamic) binding**: Happens at runtime (e.g., method overriding with inheritance)
+
+---
+
+## ✅ Scenario where **order of formal arguments matters**
+
+### ✅ Method Overloading
+
+You can have multiple methods with the **same name but different argument order**:
+
+```java
+class Test {
+    void show(int a, String b) {
+        System.out.println("int, String");
+    }
+
+    void show(String a, int b) {
+        System.out.println("String, int");
+    }
+
+    public static void main(String[] args) {
+        Test t = new Test();
+        t.show(10, "Java");     // int, String → matched by order
+        t.show("Hello", 20);    // String, int → matched by order
+    }
+}
+```
+
+### ✅ Binding Happens:
+
+* At **compile-time**, the compiler **matches the method call based on number, types, and order of parameters**.
+* So yes, **order of formal arguments matters** in **overloading**.
+
+---
+
+### ❌ But Not in Method Overriding
+
+In **runtime polymorphism**, method signatures must **exactly match**, including parameter order. There’s **no role of parameter order** in resolving which method to call — it’s always based on **object type at runtime**, not method signature variety.
+
+---
+
+## 🔥 Interview Tip:
+
+> **Can Java bind a method call using the order of arguments?**
+> ✅ **Yes, in method overloading (compile-time binding).**
+> ❌ **No, in method overriding (runtime binding).**
+
+---
+
+## ✅ Summary Table
+
+| Concept              | Is binding based on argument order? | Type of Binding | Notes                        |
+| -------------------- | ----------------------------------- | --------------- | ---------------------------- |
+| Method Overloading   | ✅ Yes                               | Compile-time    | Signature includes order     |
+| Method Overriding    | ❌ No                                | Runtime         | Signature must match exactly |
+| Constructor Overload | ✅ Yes                               | Compile-time    | Same as method overloading   |
+| Varargs Overload     | ✅ Yes                               | Compile-time    | If ambiguous, compiler error |
+
+---
+
+Want tricky interview questions on this too?
