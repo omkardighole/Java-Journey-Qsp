@@ -4,29 +4,23 @@ import java.util.Arrays;
 public class Half_Reverse_Array {
 
 	public static void main(String[] args) {
-		int arr [] = { 1,2,3,4,5,6};
-		int res [] = halfReverse(arr);
-		System.out.println(Arrays.toString(res));
-
-	}
-	
-	public static int[] halfReverse(int [] arr)
-	{int rev [] = new int[arr.length];
-		if(arr.length/2==0)
-		{
-			for(int i =arr.length/2,j=arr.length-1;i<arr.length;i++,j--)
-			{
-				arr[arr.length-i-1]=arr[i];
-			}
-		}
-		else 
-		{
-			for(int i =(arr.length/2)+1,j=arr.length-1;i<arr.length;i++,j--)
-			{
-				arr[arr.length-i-1]=arr[i];
-			}
-		}
-		return arr;
+		int arr[] = {1, 2, 3, 5, 6};
+		System.out.println(Arrays.toString(halfReverse(arr)));
 	}
 
+	public static int[] halfReverse(int[] arr) {
+		int ans[] = new int[arr.length];
+
+		// Keep first half as it is
+		for (int i = 0; i < arr.length / 2; i++) {
+			ans[i] = arr[i];
+		}
+
+		// Reverse second half
+		for (int i = arr.length - 1, j = arr.length / 2; j < arr.length; i--, j++) {
+			ans[j] = arr[i];
+		}
+
+		return ans;
+	}
 }
