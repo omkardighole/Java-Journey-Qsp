@@ -26,12 +26,11 @@ public class Remove_all_ocurrences_of_elemt_from_arrray {
 	public static void removeDuplicate(int arr[] , int ele, int cnt) {
 	    int[] ans = new int[arr.length - cnt];
 	    for (int i = 0, j = 0; i < arr.length; i++) {
-	        if (arr[i] == ele) {
-	            continue;
-	        } else {
-	            ans[j] = arr[i];
+	        if (arr[i] != ele) {
+	        	ans[j] = arr[i];
 	            j++; 
-	        }
+	        } 
+	        else continue;
 	    }
 	    System.out.println(Arrays.toString(ans));
 	}
